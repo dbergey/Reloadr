@@ -17,6 +17,7 @@ var Reloadr = {
 	},
 	ajax: function(url, callback) {
 		Reloadr.req.open("GET", url, false);
+		Reloadr.req.setRequestHeader('If-Modified-Since', window.loadTime.toUTCString());
 		Reloadr.req.send(null);
 		if (Reloadr.req.status == 200)
 			callback.call(
@@ -26,11 +27,11 @@ var Reloadr = {
 			);
 	},
 	go: function() {
-		window.loadTime = Date.parse(Date());
+		window.loadTime = new Date();
 		setInterval(function() {
 			for (i in Reloadr.watchedURLs)
 				Reloadr.ajax(Reloadr.watchedURLs[i], function() {
-					if (this > window.loadTime)
+					if (this > Date.parse(window.loadTime))
 						location.reload();
 				});
 		}, Reloadr.frequency);
