@@ -1,8 +1,8 @@
 /*
 TO USE: include reloadr.js and tell it what to check and how often:
 	Reloadr.watch([
-		'/include/css/cloud/cloud.css',
-		'/include/css/control_panel/common.css',
+		'/js/main.js',
+		'/css/layout.css'
 	], 2000);
 	
 To watch server-side files, include a path like:
