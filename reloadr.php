@@ -10,5 +10,5 @@ foreach( $filename_lists as $filename_list )
 foreach ( $files as &$file )
 	$file = filemtime($file);
 	
-header('Last-Modified: '. date('r', max($files)));
+header('Last-Modified: '. date('r', @max($files)));
 ?>
