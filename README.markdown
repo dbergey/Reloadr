@@ -14,28 +14,38 @@ Just include the following in your web application's <HEAD> tag:
 	
 	<script src="/reloadr.js"></script>
 	<script>
-		Reloadr.watch([
+		// quick, client-side-only syntax
+		Reloadr.go([
 			'/js/my_javascript_file.js',
 			'/css/my_css_file.css'
 		]);
 	</script>
 	
-By default, the script will poll each of the specified files every two seconds. The If-Modified-Since HTTP header is used to minimize traffic and request size, so if your file has not been updated since the last time it was checked, it won't be transferred. If your file *has* been updated, the browser will reload the entire page.
+By default, the script will poll each of the specified files every two seconds. The If-Modified-Since HTTP header is used to minimize traffic and request size, so if your file has not been updated since the last time it was checked, it won't be transferred. If your file *has* been updated, the browser then will reload the entire page, which is probably what you want if you've changed something and want to see the evidence thereof.
 
-If you want to limit polling to, say, every 10 seconds, pass that value (in milliseconds) as a second parameter to Reloadr.watch(), like so:
+## Server-Side Assets & Other Options
 
-	Reloadr.watch([
-		'/js/my_javascript_file.js',
-		'/css/my_css_file.css'
-	], 10000); // 10 seconds
+Not everyone works on client-side code all the time (myself included). Since your PHP files aren't directly accessible via HTTP, you can use the included reloadr.php file to aggregate the modification dates of your PHP files. Just put it somewhere accessible via HTTP, and if it's not at the top level of your site, tell Reloadr where it lives.
 
-## Server-Side Assets
+If you want to limit polling to, say, every 10 seconds, you'll need to pass that value (in milliseconds) as the 'frequency' option, as shown below in the full syntax:
 
-Not everyone works on client-side code all the time (myself included). Since your PHP files aren't directly accessible via HTTP, you can use the reloadr.php file to aggregate the modification dates of your PHP files like this:
-
-	Reloadr.watch([
-		'reloadr.php?*.php,tests/*.php'
-	]);
+	<script>
+		// full, awesome syntax
+		Reloadr.go({
+			client: [
+				'/js/my_javascript_file.js',
+				'/css/my_css_file.css'
+			],
+			server: [
+				'*.php',
+				'tests/*.php'
+			],
+			path: '/include/reloadr.php',
+			frequency: 10000
+		});
+	</script>
+	
+All options are, um, optional, but Reloadr won't actually *do* anything if you don't pass it a 'client' or 'server' array.
 
 ## Potential Future Features
 
