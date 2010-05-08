@@ -63,7 +63,8 @@ var Reloadr = {
 		var urls = this.options.client.slice();
 
 		// build url for server-side files
-		urls.push(this.options.path +'?'+ this.options.server.join(','));
+		if ( this.options.server.length )
+			urls.push(this.options.path +'?'+ this.options.server.join(','));
 
 		// check 'em
 		for (i in urls)
